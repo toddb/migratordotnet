@@ -11,6 +11,7 @@
 
 using System;
 using System.Configuration;
+using Migrator.Framework;
 using Migrator.Providers.SQLite;
 using NUnit.Framework;
 
@@ -62,19 +63,19 @@ namespace Migrator.Tests.Providers
          [Test]
          public void CanParseColumnDefForNotNull()
          {
-             const string nullString = "bar TEXT";
+             const string nullString    = "bar TEXT";
              const string notNullString = "baz INTEGER NOT NULL";
-             Assert.IsTrue(_sqlite_provider.IsNullable(nullString));
-             Assert.IsFalse(_sqlite_provider.IsNullable(notNullString));
+             Assert.AreEqual(ColumnProperty.Null,    _sqlite_provider.GetColumnFromDef(nullString).ColumnProperty);
+             Assert.AreEqual(ColumnProperty.NotNull, _sqlite_provider.GetColumnFromDef(notNullString).ColumnProperty);
          }
 
          [Test]
          public void CanParseColumnDefForName()
          {
-             const string nullString = "bar TEXT";
+             const string nullString    = "bar TEXT";
              const string notNullString = "baz INTEGER NOT NULL";
-             Assert.AreEqual("bar", _sqlite_provider.ExtractNameFromColumnDef(nullString));
-             Assert.AreEqual("baz", _sqlite_provider.ExtractNameFromColumnDef(notNullString));
+             Assert.AreEqual("bar", _sqlite_provider.GetColumnFromDef(nullString).Name);
+             Assert.AreEqual("baz", _sqlite_provider.GetColumnFromDef(notNullString).Name);
          }
      }
 }

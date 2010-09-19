@@ -128,14 +128,17 @@ namespace Migrator.Providers.SQLite
             List<Column> columns = new List<Column>();
             foreach (string columnDef in GetColumnDefs(table))
             {
-                string name = ExtractNameFromColumnDef(columnDef);
-                // FIXME: Need to get the real type information
-                Column column = new Column(name, DbType.String);
-                bool isNullable = IsNullable(columnDef);
-                column.ColumnProperty |= isNullable ? ColumnProperty.Null : ColumnProperty.NotNull;
-                columns.Add(column);
+                columns.Add(GetColumnFromDef(columnDef));
             }
             return columns.ToArray();
+        }
+
+        public Column GetColumnFromDef(string columnDef)
+        {
+            string name = ExtractNameFromColumnDef(columnDef);
+            Column column = new Column(name);
+            column.ColumnProperty |= IsNullable(columnDef) ? ColumnProperty.Null : ColumnProperty.NotNull;
+            return column;
         }
 
         public string GetSqlDefString(string table) 
