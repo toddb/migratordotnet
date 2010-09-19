@@ -77,7 +77,7 @@
                 <include name="System.dll" />
                 <include name="System.Data.dll" />
                 <include name="Mono.Data.Sqlite.dll" if="${property::exists('mono')}"/>
-                <include name="${dir.bin}/System.Data.SQLite.DLL" if="${property::exists('dotnet')}"/>
+                <include name="${dir.bin}/System.Data.SQLite.dll" if="${property::exists('dotnet')}"/>
                 <include name="${dir.bin}/Migrator.Framework.dll" />
                 <include name="${dir.bin}/MySql.Data.dll" />
                 <include name="${dir.bin}/Npgsql.dll" />
@@ -166,7 +166,7 @@
                 <include name="${dir.lib}/NAnt.Core.dll" />
                 <include name="${dir.lib}/log4net.dll" />
                 <include name="${dir.lib}/MySql.Data.dll" />
-                <include name="${dir.lib}/System.Data.SQLite.DLL" />
+                <include name="${dir.lib}/System.Data.SQLite.dll" />
                 <include name="${dir.lib.postgre}/Npgsql.dll" />
                 <include name="${dir.lib.postgre}/Mono.Security.dll" />
                 <include name="${dir.lib}/Oracle.DataAccess.dll" />
