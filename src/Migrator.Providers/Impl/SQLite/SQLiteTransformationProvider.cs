@@ -137,6 +137,7 @@ namespace Migrator.Providers.SQLite
         {
             string name = ExtractNameFromColumnDef(columnDef);
             Column column = new Column(name);
+            column.Type = ExtractTypeFromColumnDef(columnDef);
             column.ColumnProperty |= IsNullable(columnDef) ? ColumnProperty.Null : ColumnProperty.NotNull;
             return column;
         }
@@ -198,6 +199,30 @@ namespace Migrator.Providers.SQLite
                 return columnDef.Substring(0, idx);
             }
             return null;
+        }
+
+        public DbType ExtractTypeFromColumnDef(string columnDef)
+        {
+            string[] parts = columnDef.Split(' ');
+            string type = parts[1];
+            
+            switch (type)
+            {
+                case "TEXT":
+                    return DbType.String;
+                case "INTEGER":
+                    return DbType.Int32;
+                case "NUMERIC":
+                    return DbType.Decimal;
+                case "DATETIME":
+                    return DbType.DateTime;
+                case "BLOB":
+                    return DbType.Binary;
+                case "UNIQUEIDENTIFIER":
+                    return DbType.Guid;
+                default:
+                    return DbType.String;
+            }
         }
 
         public bool IsNullable(string columnDef)

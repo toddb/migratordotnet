@@ -10,6 +10,7 @@
 #endregion
 
 using System;
+using System.Data;
 using System.Configuration;
 using Migrator.Framework;
 using Migrator.Providers.SQLite;
@@ -76,6 +77,43 @@ namespace Migrator.Tests.Providers
              const string notNullString = "baz INTEGER NOT NULL";
              Assert.AreEqual("bar", _sqlite_provider.GetColumnFromDef(nullString).Name);
              Assert.AreEqual("baz", _sqlite_provider.GetColumnFromDef(notNullString).Name);
+         }
+
+         [Test]
+         public void CanParseColumnDefForStringType()
+         {
+             Assert.AreEqual(DbType.String, _sqlite_provider.GetColumnFromDef("bar TEXT").Type);
+         }
+
+         // TODO select a different DbType based on the column length (?)
+         [Test]
+         public void CanParseColumnDefForIntegerType()
+         {
+             Assert.AreEqual(DbType.Int32, _sqlite_provider.GetColumnFromDef("baz INTEGER NOT NULL").Type);
+         }
+
+         [Test]
+         public void CanParseColumnDefForDecimalType()
+         {
+             Assert.AreEqual(DbType.Decimal, _sqlite_provider.GetColumnFromDef("payment_amount NUMERIC").Type);
+         }
+
+         [Test]
+         public void CanParseColumnDefForDateTimeType()
+         {
+             Assert.AreEqual(DbType.DateTime, _sqlite_provider.GetColumnFromDef("created_at DATETIME").Type);
+         }
+
+         [Test]
+         public void CanParseColumnDefForGuidType()
+         {
+             Assert.AreEqual(DbType.Guid, _sqlite_provider.GetColumnFromDef("guid UNIQUEIDENTIFIER").Type);
+         }
+
+         [Test]
+         public void CanParseColumnDefForBinaryType()
+         {
+             Assert.AreEqual(DbType.Binary, _sqlite_provider.GetColumnFromDef("uploaded_image BLOB").Type);
          }
      }
 }
